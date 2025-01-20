@@ -40,6 +40,7 @@ class AuthController extends GetxController {
 	late Timer _timer;
 	RxInt start = 120.obs;
 
+	var phoneNumber;
 
 
 	String get timeString {
@@ -68,17 +69,26 @@ class AuthController extends GetxController {
 		if (timeString == "0:00") {
 			start.value = 120;
 			code_error.value = true;
-			startTimer();
-
+			
+			var result = await CustomerAuthorizationService().sendPhoneNumber(phoneNumber);
+			if (result.statusCode == 200) {
+				startTimer();
+				// Get.to(CodeVerificationScreen());
+			} else {
+				Get.snackbar("Error", "Telefon raqamini yuborishda xatolik yuz berdi.");
+			}
 		} else {
 			String _code = code_controllers.values.map((controller)=>controller.text).join("");
 
-			var result =  await CustomerAuthorizatoinService().sendPhoneNumberAndCode(phone.text, _code);
+			var result =  await CustomerAuthorizationService().sendPhoneNumberAndCode(phone.text, _code);
 			if (result.statusCode == 200) {
 				Get.to(HomePage());
 
 				code_error.value = true;
 			} else {
+				code_controllers.forEach((key, controller) {
+					controller.clear();
+				});
 				code_error.value = false;
 			}
 
@@ -87,14 +97,14 @@ class AuthController extends GetxController {
 	}
 
 	void check_number() async {
-		String phoneNumber = phone.text;
+		phoneNumber = phone.text;
 		RegExp regExp = RegExp(r'^\+998\ \(\d{2}\)\ \d{3}\ \d{2}\ \d{2}$');
 		if (regExp.hasMatch(phoneNumber)) {
 			phone_error.value = true;
 			if (full_name.text != "") {
 				phoneNumber = phoneNumber.substring(0,5) + phoneNumber.substring(6,8) + phoneNumber.substring(9,12) + phoneNumber.substring(12,15) + phoneNumber.substring(15,19);
 				phone.text = phoneNumber;
-				var result = await CustomerAuthorizatoinService().sendPhoneNumber(phoneNumber);
+				var result = await CustomerAuthorizationService().sendPhoneNumber(phoneNumber);
 				if (result.statusCode == 200) {
 					startTimer();
 					Get.to(CodeVerificationScreen());

@@ -2,7 +2,7 @@
 
 import 'package:get/get.dart';
 
-class CustomerAuthorizatoinService {
+class CustomerAuthorizationService {
 
 	final getx = GetConnect();
 	Future<Response> sendPhoneNumber(String phoneNumber) async {
