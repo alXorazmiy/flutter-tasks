@@ -4,16 +4,13 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_2/app/model/characterModel.dart';
 import 'package:task_2/app/pages/detail/detail_page.dart';
-import 'package:task_2/app/pages/home/bloc/home_bloc.dart';
-import 'package:task_2/app/pages/home/bloc/home_event.dart';
 
-class CharacterCard extends StatelessWidget {
+class Charactergridcard extends StatelessWidget {
     final CharacterModel character;
-    const CharacterCard({super.key, required this.character});
+    const Charactergridcard({super.key, required this.character});
 
     @override
     Widget build(BuildContext context) {
@@ -21,7 +18,6 @@ class CharacterCard extends StatelessWidget {
             children: [
                 GestureDetector(
                             onTap: (){
-                                
                                 Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CharacterDetailPage(character: character)));
                             },
                             child: Container(
@@ -34,7 +30,7 @@ class CharacterCard extends StatelessWidget {
                                         ClipRRect(
                                             borderRadius: BorderRadius.circular(15.r),
                                             child: CachedNetworkImage(
-                                                height: 100.h,
+                                                height: 130.h,
                                                 imageUrl: character.imageUrl.toString(),
                                                 placeholder: (context, url) => SizedBox(),
                                                 errorWidget: (context, url, error) => Icon(Icons.error),

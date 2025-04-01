@@ -4,10 +4,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task_2/app/pages/characters/characters_page.dart';
+import 'package:task_2/app/pages/episodes/episodes_page.dart';
 import 'package:task_2/app/pages/home/bloc/home_bloc.dart';
 import 'package:task_2/app/pages/home/bloc/home_state.dart';
 import 'package:task_2/app/pages/home/widgets/carousel.dart';
 import 'package:task_2/app/pages/home/widgets/characterCard.dart';
+import 'package:task_2/app/pages/home/widgets/episodeCard.dart';
 
 
 
@@ -19,7 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    TextEditingController _searchController = TextEditingController();
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -41,71 +43,75 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                     ),
                                    
-                                    // SliverToBoxAdapter(
-                                    //     child: Padding(
-                                    //         padding: EdgeInsets.all(20.w),
-                                    //         child: Container(
-                                    //             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.w),
-                                    //             decoration: BoxDecoration(
-                                    //                 // color: Color.fromRGBO(255, 255, 255, 0.2),
-                                    //                 color: Color(0xff3a495d),
-                                    //                 borderRadius: BorderRadius.circular(8.r)
-                                    //             ),
-                                    //             child: Row(
-                                    //                 children: [
-                                    //                     SizedBox(
-                                    //                         height: 16.w,
-                                    //                         width: 16.w,
-                                    //                         child: Image.asset("assets/icons/search.png", color: Colors.white,),
-                                    //                     ),
-                                    //                     SizedBox(width: 10.w),
-                                    //                     Expanded(
-                                    //                         child: TextField(
-                                    //                             controller: _searchController,
-                                    //                             decoration: InputDecoration(
-                                    //                                 hintText: "Search",
-                                    //                                 hintStyle: TextStyle(color: Colors.white),
-                                    //                                 border: InputBorder.none,
-                                                                    
-                                    //                             ),
-                                    //                         ),
-                                    //                     )
-
-                                    //                 ],
-                                    //             ),
-                                    //         ),
-                                    //     ),
-                                    // ),
                                       SliverToBoxAdapter(
                                         child: RickAndMortyCarousel()
                                     ),
                                     SliverToBoxAdapter(
                                         child: Padding(
                                             padding: EdgeInsets.all(20.w),
-                                            child: Text("Characters", style: TextStyle(fontSize: 20.sp, fontFamily: "Poppins", fontWeight: FontWeight.w700, color: Colors.white)),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Characters", style: TextStyle(fontSize: 20.sp, fontFamily: "Poppins", fontWeight: FontWeight.w700, color: Colors.white)),
+                                                TextButton( 
+                                                    onPressed: (){
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => CharactersPage()));
+                                                    },  
+                                                    child: Text("see all", style: TextStyle(fontSize: 14.sp, fontFamily: "Poppins", color: Colors.white))
+                                                ),
+                                              ],
+                                            ),
                                         ),
                                     ),
-                                    SliverPadding(
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                        sliver: SliverGrid(
-                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                mainAxisSpacing: 10.w,
-                                                crossAxisSpacing: 15.w,
-                                                childAspectRatio: 0.75,
-                                            ),
-                                            delegate: SliverChildBuilderDelegate(
-                                                childCount: state.characterList.length,
-                                                (BuildContext context, int index) {
-                                                    return 
-                                                        CharacterGridCard(character: state.characterList[index], key: ValueKey(state.characterList[index].id) );
-                                                
+                                    SliverToBoxAdapter(
+                                            child: SizedBox(
+                                            height: 130.h, 
+                                            width: 0.3.sw,// yoki kerakli balandlik
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.horizontal,
+                                                itemCount: state.characterList.length > 10 ? 10 : state.characterList.length,
+                                                itemBuilder: (context, index) {
+                                                    return Padding(
+                                                        padding: EdgeInsets.only(left: 20.w, right: index == 9 ? 20.w : 0),
+                                                        child: CharacterCard(character: state.characterList[index], key: ValueKey(state.characterList[index].id)),
+                                                    );
                                                 },
+                                            ),
+                                            ),
+                                        ),
+                                    SliverToBoxAdapter(
+                                        child: Padding(
+                                            padding: EdgeInsets.all(20.w),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Episodes", style: TextStyle(fontSize: 20.sp, fontFamily: "Poppins", fontWeight: FontWeight.w700, color: Colors.white)),
+                                                TextButton( 
+                                                    onPressed: (){
+                                                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => EpisodesPage()));
+                                                    },  
+                                                    child: Text("see all", style: TextStyle(fontSize: 14.sp, fontFamily: "Poppins", color: Colors.white))
+                                                ),
+                                              ],
+                                            ),
+                                        ),
+                                    ),
+                                    SliverToBoxAdapter(
+                                            child: SizedBox(
+                                            height: 130.h, 
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.horizontal,
+                                                itemCount: state.episodeList.length > 10 ? 10 : state.characterList.length,
+                                                itemBuilder: (context, index) {
+                                                return Padding(
+                                                    padding: EdgeInsets.only(left: 20.w,right: index == 9 ? 20.w : 0), 
+                                                    child: Episodecard(episode: state.episodeList[index]),
+                                                );
+                                                },
+                                            ),
                                             ),
                                         ),
 
-                                    ),
-                        
                                     SliverPadding(padding: EdgeInsets.only(top:  50.h)),
                                 ],
                     );

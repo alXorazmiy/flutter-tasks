@@ -1,22 +1,34 @@
+import 'package:hive/hive.dart';
+part 'characterModel.g.dart'; 
 
-import 'package:task_2/app/model/character.dart';
 
-class CharacterModel extends Character {
+
+@HiveType(typeId: 0)
+class CharacterModel{
+    @HiveField(0)
+    final int id;
+    @HiveField(1)
+    final String name;
+    @HiveField(2)
+    final String status;
+    @HiveField(3)
+    final String species;
+    @HiveField(4)
+    final String gender;
+    @HiveField(5)
+    final String imageUrl;
+    @HiveField(6)
+    final List<String> episodes;
+
     CharacterModel({
-        required int id,
-        required String name,
-        required String status,
-        required String species,
-        required String gender,
-        required String imageUrl,
-    }) : super(
-            id: id,
-            name: name,
-            status: status,
-            species: species,
-            gender: gender,
-            imageUrl: imageUrl,
-            );
+        required this.id,
+        required this.name,
+        required this.status,
+        required this.species,
+        required this.gender,
+        required this.imageUrl,
+        required this.episodes, 
+    });
 
     factory CharacterModel.fromJson(Map<String, dynamic> json) {
         return CharacterModel(
@@ -26,6 +38,7 @@ class CharacterModel extends Character {
         species: json['species'],
         gender: json['gender'],
         imageUrl: json['image'],
+        episodes: List<String>.from(json['episode']),
         );
     }
 
@@ -37,6 +50,7 @@ class CharacterModel extends Character {
         "species": species,
         "gender": gender,
         "image": imageUrl,
+        "episode": episodes,
         };
   }
 }

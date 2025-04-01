@@ -15,6 +15,7 @@ import 'package:task_2/app/pages/home/bloc/home_event.dart';
 import 'package:task_2/app/pages/home/home_page.dart';
 
 import 'package:task_2/app/service/network/character_service.dart';
+import 'package:task_2/app/service/network/episode_service.dart';
 
 
 class AppPages {
@@ -27,7 +28,7 @@ class AppPages {
             ),
             PageEntity(
                 page:  HomePage(),
-                bloc: BlocProvider(create: (_)=> HomeBloc(characterService: CharacterService())..add(LoadCharactersEvent()))
+                bloc: BlocProvider(create: (_)=> HomeBloc(characterService: CharacterService(), episodeService: EpisodeService())..add(LoadCharactersEvent()))
             ),
             
         ];

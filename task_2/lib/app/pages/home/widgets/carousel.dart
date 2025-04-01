@@ -28,7 +28,7 @@ class _RickAndMortyCarouselState extends State<RickAndMortyCarousel> {
             CarouselSlider.builder(
               carouselController: _controller,
               options: CarouselOptions(
-                height: 200.h,
+                height: 160.h,
                 enlargeCenterPage: true,
                 autoPlay: true,
                 aspectRatio: 16 / 9,
